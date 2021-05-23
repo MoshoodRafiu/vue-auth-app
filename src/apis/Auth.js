@@ -8,7 +8,7 @@ export default {
     },
     async login(credentials){
         await Csrf.getCookie();
-        return Api.post('/auth/register/spa', credentials);
+        return Api.post('/auth/login/spa', credentials);
     },
     async logout(){
         await Csrf.getCookie();

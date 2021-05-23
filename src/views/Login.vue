@@ -18,7 +18,7 @@
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
             <label class="form-check-label" for="exampleCheck1">Remember me</label>
           </div>
-          <button type="submit" class="btn btn-primary">Login</button>
+          <button type="submit" @click.prevent="login" class="btn btn-primary">Login</button>
         </form>
       </div>
     </div>
@@ -32,13 +32,13 @@ export default {
     return {
       credentials: {
         email: "test@test.com",
-        password_confirmation: "Password123!"
+        password: "Password123!"
       }
     }
   },
   methods: {
-    register(){
-      Auth.register(this.credentials)
+    login(){
+      Auth.login(this.credentials)
           .then(() => {
             localStorage.setItem('auth', "true");
             this.$router.push({name: 'Dashboard'});

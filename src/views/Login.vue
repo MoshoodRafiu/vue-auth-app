@@ -6,7 +6,7 @@
           <div class="mb-3">
             <h3>Login</h3>
           </div>
-          <div v-if="info.show" class="alert alert-danger" :class="{'alert-danger': !info.success, 'alert-success': info.success}" role="alert">{{ info.message}}</div>
+          <div v-if="info.show" class="alert" :class="{'alert-danger': !info.success, 'alert-success': info.success}" role="alert">{{ info.message}}</div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
             <input type="email" v-model="credentials.email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -50,9 +50,12 @@ export default {
       Auth.login(this.credentials)
           .then(() => {
             localStorage.setItem('auth', "true");
-            this.$store.state.loggedIn = true;
-            this.$router.push({name: 'Dashboard'});
-            this.info = {show: true, success: true, message: 'Logged in successfully'};
+            this.errors = [];
+            this.info = {show: true, success: true, message: 'Logged in successfully, redirecting...'};
+            setTimeout(() => {
+              this.$store.state.loggedIn = true;
+              this.$router.push({name: 'Dashboard'});
+            }, 2000);
           })
           .catch(err => {
             if (err.response.status === 422){

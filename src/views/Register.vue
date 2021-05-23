@@ -47,6 +47,7 @@ export default {
       Auth.register(this.credentials)
         .then(() => {
           localStorage.setItem('auth', "true");
+          this.$store.state.loggedIn = true;
           this.$router.push({name: 'Dashboard'});
         });
     }

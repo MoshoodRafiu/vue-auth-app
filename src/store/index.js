@@ -7,6 +7,9 @@ Vue.use(Vuex)
 /* eslint-disable no-new */
 const store = new Vuex.Store({
   plugins: [createPersistedState()],
+  state: {
+    loggedIn: !!localStorage.getItem('auth')
+  },
   modules: {
   }
 })

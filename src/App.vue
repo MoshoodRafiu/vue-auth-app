@@ -11,16 +11,16 @@
             <li class="nav-item">
               <router-link class="nav-link" active-class="active" exact to="/">Home</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="!$store.state.loggedIn">
               <router-link class="nav-link" active-class="active" to="/login">Login</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="!$store.state.loggedIn">
               <router-link class="nav-link" active-class="active" to="/register">Register</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="$store.state.loggedIn">
               <router-link class="nav-link" active-class="active" to="/dashboard">Dashboard</router-link>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" v-if="$store.state.loggedIn">
               <button @click="logout" class="btn nav-link">Logout</button>
             </li>
           </ul>
@@ -37,9 +37,10 @@
   export default {
     methods: {
       logout() {
+        localStorage.removeItem('auth');
         Auth.logout()
             .then(() => {
-              localStorage.setItem('auth', 'true');
+              this.$store.state.loggedIn = false;
               this.$router.push({name: 'Home'});
             });
       }

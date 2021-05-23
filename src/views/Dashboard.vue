@@ -4,7 +4,7 @@
       <div class="col-md-6 mt-3 bg-light mt-5 p-4 mx-auto">
         <div class="mb-3">
           <h3>Dashboard</h3>
-          <p>Hello <span v-if="user">{{ user.name }}</span><span v-else>Loading...</span>,</p>
+          <p>Hello <span v-if="user">{{ user.name }},</span><span v-else>Loading...</span></p>
           <p>Welcome to your dashboard</p>
           <button @click="logout" class="btn btn-primary">Logout</button>
         </div>
@@ -32,9 +32,10 @@
           });
       },
       logout() {
+        localStorage.removeItem('auth');
         Auth.logout()
           .then(() => {
-            localStorage.setItem('auth', 'true');
+            this.$store.state.loggedIn = false;
             this.$router.push({name: 'Home'});
           });
       }

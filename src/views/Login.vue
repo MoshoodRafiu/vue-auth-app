@@ -6,17 +6,20 @@
           <div class="mb-3">
             <h3>Login</h3>
           </div>
+          <div v-if="info.show" class="alert alert-danger" :class="{'alert-danger': !info.success, 'alert-success': info.success}" role="alert">{{ info.message}}</div>
           <div class="mb-3">
             <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <input type="email" v-model="credentials.email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+            <div v-if="errors.email" class="small text-danger">
+              <strong>{{ errors.email[0] }}</strong>
+            </div>
           </div>
           <div class="mb-3">
             <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-          </div>
-          <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Remember me</label>
+            <input type="password" v-model="credentials.password" class="form-control" id="exampleInputPassword1">
+            <div v-if="errors.password" class="small text-danger">
+              <strong>{{ errors.password[0] }}</strong>
+            </div>
           </div>
           <button type="submit" @click.prevent="login" class="btn btn-primary">Login</button>
         </form>
@@ -31,8 +34,14 @@ export default {
   data() {
     return {
       credentials: {
-        email: "test@test.com",
-        password: "Password123!"
+        email: null,
+        password: null
+      },
+      errors: [],
+      info: {
+        show: false,
+        success: true,
+        message: null
       }
     }
   },
@@ -43,6 +52,16 @@ export default {
             localStorage.setItem('auth', "true");
             this.$store.state.loggedIn = true;
             this.$router.push({name: 'Dashboard'});
+            this.info = {show: true, success: true, message: 'Logged in successfully'};
+          })
+          .catch(err => {
+            if (err.response.status === 422){
+              this.errors = err.response.data.errors;
+              this.info = {show: true, success: false, message: 'Invalid input data'};
+            }else{
+              this.errors = [];
+              this.info = {show: true, success: false, message: err.response.data.message};
+            }
           });
     }
   },

@@ -16,7 +16,7 @@
           </div>
           <div class="mb-3 form-check">
             <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Remeber me</label>
+            <label class="form-check-label" for="exampleCheck1">Remember me</label>
           </div>
           <button type="submit" class="btn btn-primary">Login</button>
         </form>
@@ -24,3 +24,26 @@
     </div>
   </div>
 </template>
+
+<script>
+import Auth from '../apis/Auth';
+export default {
+  data() {
+    return {
+      credentials: {
+        email: "test@test.com",
+        password_confirmation: "Password123!"
+      }
+    }
+  },
+  methods: {
+    register(){
+      Auth.register(this.credentials)
+          .then(() => {
+            localStorage.setItem('auth', "true");
+            this.$router.push({name: 'Dashboard'});
+          });
+    }
+  },
+}
+</script>

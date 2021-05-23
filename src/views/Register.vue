@@ -22,7 +22,7 @@
             <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
             <input type="password" class="form-control" id="exampleInputPassword2">
           </div>
-          <button type="submit" @click.prevent="registerUser" class="btn btn-primary">Register</button>
+          <button type="submit" @click.prevent="register" class="btn btn-primary">Register</button>
         </form>
       </div>
     </div>
@@ -43,9 +43,10 @@ export default {
     }
   },
   methods: {
-    registerUser(){
+    register(){
       Auth.register(this.credentials)
         .then(() => {
+          localStorage.setItem('auth', "true");
           this.$router.push({name: 'Dashboard'});
         });
     }

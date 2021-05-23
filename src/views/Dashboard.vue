@@ -4,9 +4,9 @@
       <div class="col-md-6 mt-3 bg-light mt-5 p-4 mx-auto">
         <div class="mb-3">
           <h3>Dashboard</h3>
-          <p>Hello User,</p>
+          <p>Hello <span v-if="user">{{ user.name }}</span>,</p>
           <p>Welcome to your dashboard</p>
-          <button class="btn btn-primary">Logout</button>
+          <button @click="logout" class="btn btn-primary">Logout</button>
         </div>
       </div>
     </div>
@@ -14,14 +14,30 @@
 </template>
 
 <script>
+  import Auth from "@/apis/Auth";
   export default {
     data(){
-      return{
-
+      return {
+        user: null
       }
     },
-    created: {
-
+    mounted() {
+      this.getUser();
+    },
+    methods: {
+      getUser(){
+        Auth.user()
+          .then(res => {
+            this.user = res.data;
+          });
+      },
+      logout() {
+        Auth.logout()
+          .then(() => {
+            localStorage.setItem('auth', 'true');
+            this.$router.push({name: 'Home'});
+          });
+      }
     }
   }
 </script>

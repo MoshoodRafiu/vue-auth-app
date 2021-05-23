@@ -21,7 +21,7 @@
               <router-link class="nav-link" active-class="active" to="/dashboard">Dashboard</router-link>
             </li>
             <li class="nav-item">
-              <button class="btn nav-link">Logout</button>
+              <button @click="logout" class="btn nav-link">Logout</button>
             </li>
           </ul>
         </div>
@@ -30,6 +30,22 @@
     <router-view/>
   </div>
 </template>
+
+<script>
+  import Auth from "@/apis/Auth";
+
+  export default {
+    methods: {
+      logout() {
+        Auth.logout()
+            .then(() => {
+              localStorage.setItem('auth', 'true');
+              this.$router.push({name: 'Home'});
+            });
+      }
+    }
+  }
+</script>
 
 <style>
 #app {

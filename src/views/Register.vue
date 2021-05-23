@@ -1,5 +1,54 @@
 <template>
   <div class="about">
-    <h1>This is the register page</h1>
+    <div class="row">
+      <div class="col-md-6 mt-3 bg-light mt-5 p-4 mx-auto">
+        <form class="text-left">
+          <div class="mb-3">
+            <h3>Register</h3>
+          </div>
+          <div class="mb-3">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" class="form-control" id="name">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1">
+          </div>
+          <div class="mb-3">
+            <label for="exampleInputPassword2" class="form-label">Confirm Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword2">
+          </div>
+          <button type="submit" @click.prevent="registerUser" class="btn btn-primary">Register</button>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
+
+<script>
+import Auth from '../apis/Auth';
+export default {
+  data() {
+    return {
+      credentials: {
+        name: "Test",
+        email: "test@test.com",
+        password: "Password123!",
+        password_confirmation: "Password123!"
+      }
+    }
+  },
+  methods: {
+    registerUser(){
+      Auth.register(this.credentials)
+        .then(() => {
+          this.$router.push({name: 'Dashboard'});
+        });
+    }
+  },
+}
+</script>

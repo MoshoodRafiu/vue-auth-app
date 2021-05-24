@@ -25,7 +25,9 @@
             <label for="exampleInputPassword1" class="form-label">Password</label>
             <input type="password" v-model="credentials.password" class="form-control" id="exampleInputPassword1">
             <div v-if="errors.password" class="small text-danger">
-              <strong>{{ errors.password[0] }}</strong>
+              <div v-for="index in errors.password.length" :key="errors.password[index]">
+                <strong>{{ errors.password[index - 1] }}</strong>
+              </div>
             </div>
           </div>
           <div class="mb-3">
@@ -45,10 +47,10 @@ export default {
   data() {
     return {
       credentials: {
-        name: "Test",
-        email: "test@test.com",
-        password: "Password123!",
-        password_confirmation: "Password123!"
+        name: null,
+        email: null,
+        password: null,
+        password_confirmation: null
       },
       errors: [],
       info: {
